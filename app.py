@@ -52,7 +52,8 @@ if run_download:
                         data_dir = str(Path(tmp) / "data")
                         output_path = Path(tmp) / f"XAUUSD_{output_tf}_{start_date}_{end_date}.csv"
                         base = [duka]
-                        download_side = "both" if price_side == "MID" else price_side.lower()\n                        download_cmd = base + ["download", "XAUUSD", "--from", start_date.isoformat(), "--to", end_date.isoformat(), "--side", download_side, "--data-dir", data_dir, "--rate", "5"]
+                        download_side = "both" if price_side == "MID" else price_side.lower()
+                        download_cmd = base + ["download", "XAUUSD", "--from", start_date.isoformat(), "--to", end_date.isoformat(), "--side", download_side, "--data-dir", data_dir, "--rate", "5"]
                         dl = subprocess.run(download_cmd, capture_output=True, text=True, timeout=900)
                         if dl.returncode != 0:
                             details = (dl.stderr or dl.stdout or "Downloader returned an unknown error")[-5000:]
