@@ -105,7 +105,13 @@ def submit_paper_market_order(symbol, side, qty, max_notional, approved):
     if not last: raise RuntimeError("Blocked: no current price available.")
     notional=float(last)*qty
     if notional>float(max_notional): raise RuntimeError("Blocked: estimated notional exceeds configured cap.")
-    if trade.get_account().trading_blocked: raise RuntimeError("Blocked: account is trading-blocked.")
+    account = trade.get_account()
+    if account.trading_blocked: raise RuntimeError("Blocked: account is trading-blocked.")
+    if notional > float(account.equity) * 0.10: raise RuntimeError("Blocked: order notional exceeds 10% of paper-account equity safety limit.")
+    if side == "sell":
+        try: held = float(trade.get_open_position(symbol).qty)
+        except Exception: held = 0.0
+        if qty > held: raise RuntimeError("Blocked: sell quantity exceeds existing long position; short selling is disabled.")
     req=MarketOrderRequest(symbol=symbol,qty=qty,side=OrderSide.BUY if side=="buy" else OrderSide.SELL,time_in_force=TimeInForce.DAY)
     o=trade.submit_order(order_data=req)
     return {"id":str(o.id),"symbol":symbol,"side":side,"qty":qty,"estimated_notional":notional,
