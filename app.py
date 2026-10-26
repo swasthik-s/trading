@@ -12,7 +12,7 @@ from agents import run_research_agents
 
 st.set_page_config(page_title="Gold Quant Desk", page_icon="📈", layout="wide")
 st.title("🟡 Gold Quant Desk")
-st.caption("Multi-agent XAUUSD research lab · Historical research only · No live orders")
+st.caption("Alpaca US equities paper trading + separate XAUUSD research workspace · No live-money execution")
 
 from stocks_ui import render_stock_workspace
 render_stock_workspace()
