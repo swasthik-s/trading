@@ -14,6 +14,10 @@ st.set_page_config(page_title="Gold Quant Desk", page_icon="📈", layout="wide"
 st.title("🟡 Gold Quant Desk")
 st.caption("Multi-agent XAUUSD research lab · Historical research only · No live orders")
 
+from stocks_ui import render_stock_workspace
+render_stock_workspace()
+st.divider()
+
 with st.sidebar:
     st.header("Research settings")
     symbol = st.text_input("Symbol", "XAUUSD")
